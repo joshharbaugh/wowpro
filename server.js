@@ -2,6 +2,8 @@
 
 // Requires meanio .
 var mean = require('meanio');
+var dotenv = require('dotenv');
+dotenv.load();
 
 // Creates and serves mean application
 mean.serve({ /*options placeholder*/ }, function(app, config) {

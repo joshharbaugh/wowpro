@@ -7,6 +7,7 @@ var mongoose = require('mongoose'),
   GitHubStrategy = require('passport-github').Strategy,
   GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
   LinkedinStrategy = require('passport-linkedin').Strategy,
+  BnetStrategy = require('passport-bnet').Strategy,
   User = mongoose.model('User'),
   config = require('meanio').loadConfig();
 
@@ -223,4 +224,37 @@ module.exports = function(passport) {
       });
     }
   ));
+
+  // use battle.net strategy
+  passport.use(new BnetStrategy({
+    clientID: config.battlenet.clientID,
+    clientSecret: config.battlenet.clientSecret,
+    callbackURL: config.battlenet.callbackURL,
+    scope: 'wow.profile'
+    //callbackURL: "https://localhost:9000/auth/bnet/callback"
+   }, function(accessToken, refreshToken, profile, done) {
+    console.log(accessToken);
+    console.log(profile);
+      User.findOne({
+        'battlenet.id': profile.id
+      }, function(err, user) {
+        if (user) {
+          return done(err, user);
+        }
+        user = new User({
+          name: profile.battletag,
+          username: profile.battletag.split('#')[0],
+          provider: 'battlenet',
+          roles: ['authenticated']
+        });
+        user.save(function(err) {
+          if (err) {
+            console.log(err);
+            return done(null, false, {message: 'Battle.net login failed, email already used by other login strategy'});
+          } else {
+            return done(err, user);
+          }
+        });
+      });
+   }));
 };

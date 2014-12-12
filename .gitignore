@@ -63,3 +63,7 @@ test/coverage/
 modules/public/
 modules/views/
 /public/build/
+
+*.crt
+*.key
+*.csr

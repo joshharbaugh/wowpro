@@ -7,7 +7,10 @@ angular.module('mean.users')
   .controller('AuthCtrl', ['$scope', '$rootScope', '$http', '$location', 'Global',
     function($scope, $rootScope, $http, $location, Global) {
       // This object will contain list of available social buttons to authorize
-      $scope.socialButtons = {};
+      $scope.socialButtons = {
+        'bnet': {},
+        'linkedin': {}
+      };
       $scope.socialButtonsCounter = 0;
       $scope.global = Global;
       $http.get('/get-config')

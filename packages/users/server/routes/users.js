@@ -47,6 +47,18 @@ module.exports = function(MeanUser, app, auth, database, passport) {
       res.send(config);
     });
 
+  // Setting the battlenet oauth routes
+  app.route('/auth/bnet')
+    .get(passport.authenticate('bnet', {
+      scope: ['wow.profile'],
+      failureRedirect: '#!/login'
+    }), users.signin);
+
+  app.route('/auth/bnet/callback')
+    .get(passport.authenticate('bnet', {
+      failureRedirect: '#!/login'
+    }), users.authCallback);
+
   // Setting the facebook oauth routes
   app.route('/auth/facebook')
     .get(passport.authenticate('facebook', {

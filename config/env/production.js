@@ -29,6 +29,11 @@ module.exports = {
   app: {
     name: 'MEAN - A Modern Stack - Production'
   },
+  battlenet: {
+    clientID: process.env.BNET_ID,
+    clientSecret: process.env.BNET_SECRET,
+    callbackURL: 'https://warcraftprofessional.net/auth/bnet/callback'
+  },
   facebook: {
     clientID: 'APP_ID',
     clientSecret: 'APP_SECRET',

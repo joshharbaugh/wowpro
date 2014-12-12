@@ -32,9 +32,14 @@ module.exports = {
     callbackURL: 'http://localhost:3000/auth/google/callback'
   },
   linkedin: {
-    clientID: 'DEFAULT_API_KEY',
-    clientSecret: 'SECRET_KEY',
-    callbackURL: 'http://localhost:3000/auth/linkedin/callback'
+    clientID: process.env.LINKEDIN_ID,
+    clientSecret: process.env.LINKEDIN_SECRET,
+    callbackURL: 'https://localhost:9000/auth/linkedin/callback'
+  },
+  battlenet: {
+    clientID: process.env.BNET_ID,
+    clientSecret: process.env.BNET_SECRET,
+    callbackURL: 'https://localhost:9000/auth/bnet/callback'
   },
   emailFrom: 'SENDER EMAIL ADDRESS', // sender address like ABC <abc@example.com>
   mailer: {

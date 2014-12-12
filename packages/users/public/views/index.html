@@ -6,6 +6,11 @@
     <div class="row login-form__right " data-ng-controller="AuthCtrl">
         <div class="social_wrap" ng-class="{bigger:socialButtonsCounter > 4 && !global.registerForm}">
             <ul class="social">
+                <li ng-if="socialButtons.hasOwnProperty('bnet')" class="social_icon social_icon_bn">
+                    <a href="/auth/bnet" class="button">
+                        <span>Log In With Battle.net</span>
+                    </a>
+                </li>
                 <li ng-if="socialButtons.hasOwnProperty('linkedin')" class="social_icon social_icon_in">
                     <a href="/auth/linkedin" class="button">
                         <span>Log In With LinkedIn</span>

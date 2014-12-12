@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = {
+  aggregate: true,
   db: process.env.MONGOHQ_URL || 'mongodb://localhost/mean-prod',
   /**
    * Database options that will be passed directly to mongoose.connect

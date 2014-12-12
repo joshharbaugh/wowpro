@@ -67,3 +67,4 @@ modules/views/
 *.crt
 *.key
 *.csr
+*.env

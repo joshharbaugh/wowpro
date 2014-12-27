@@ -231,30 +231,31 @@ module.exports = function(passport) {
     clientSecret: config.battlenet.clientSecret,
     callbackURL: config.battlenet.callbackURL,
     scope: 'wow.profile'
-    //callbackURL: "https://localhost:9000/auth/bnet/callback"
-   }, function(accessToken, refreshToken, profile, done) {
-    console.log(accessToken);
-    console.log(profile);
-      User.findOne({
-        'battlenet.id': profile.id
-      }, function(err, user) {
-        if (user) {
+  }, function(accessToken, refreshToken, profile, done) {
+    console.log('token', accessToken);
+    console.log('refresh token', refreshToken);
+
+    User.findOne({
+      'battlenet.id': profile.id
+    }, function(err, user) {
+      if (user) {
+        return done(err, user);
+      }
+      user = new User({
+        name: profile.battletag,
+        username: profile.battletag.split('#')[0],
+        provider: 'battlenet',
+        roles: ['authenticated'],
+        token: accessToken
+      });
+      user.save(function(err) {
+        if (err) {
+          console.log(err);
+          return done(null, false, {message: 'Battle.net login failed, email already used by other login strategy'});
+        } else {
           return done(err, user);
         }
-        user = new User({
-          name: profile.battletag,
-          username: profile.battletag.split('#')[0],
-          provider: 'battlenet',
-          roles: ['authenticated']
-        });
-        user.save(function(err) {
-          if (err) {
-            console.log(err);
-            return done(null, false, {message: 'Battle.net login failed, email already used by other login strategy'});
-          } else {
-            return done(err, user);
-          }
-        });
       });
-   }));
+    });
+  }));
 };

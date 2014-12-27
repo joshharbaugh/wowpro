@@ -1,0 +1,61 @@
+<section data-ng-controller="CharactersController" data-ng-init="findOne()" data-ng-cloak>  
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel">
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-sm-4">
+                  <a data-ng-href="http://us.battle.net/wow/en/character/sargeras/{{character.name}}/advanced" target="_blank" class="thumbnail circular">
+                    <img data-ng-src="https://us.battle.net/static-render/us/{{character.thumbnail}}" />
+                  </a>
+                </div>
+                <div class="col-sm-8">
+                  <h2>{{character.name}} <small>{{character.realm}}</small></h2>
+                  <strong>{{character.level}} {{character.race}} {{character.class}}</strong><br>
+                  <time>{{character.lastModified | date:'medium'}}</time>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="progress" data-ng-repeat="profession in character.professions.primary">
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{profession.rank}}" aria-valuemin="0" aria-valuemax="700" style="width: {{ (profession.rank / (profession.max + 25) * 100) }}%;">
+              <span>{{profession.name}}</span> <span style="position: absolute; right: 14px">{{profession.rank}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-8">      
+      <div id="myfirstchart" style="height: 250px;"></div>
+    </div>
+  </div>
+</section>
+<script>
+jQuery(function($) {
+  setTimeout(function() {
+    new Morris.Line({
+      // ID of the element in which to draw the chart.
+      element: 'myfirstchart',
+      data: [
+        { year: '2008', value: 20 },
+        { year: '2009', value: 10 },
+        { year: '2010', value: 5 },
+        { year: '2011', value: 5 },
+        { year: '2012', value: 20 }
+      ],
+      xkey: 'year',
+      // A list of names of data record attributes that contain y-values.
+      ykeys: ['value'],
+      // Labels for the ykeys -- will be displayed when you hover over the
+      // chart.
+      labels: ['Value']
+    });
+  }, 2000);
+});
+</script>

@@ -1,0 +1,64 @@
+<section data-ng-controller="ProfessionsController">
+    <form id="profession-add-form" class="row-fluid form-inline" name="addProfessionForm" data-ng-submit="add()">
+        <div class="">
+            <span data-ng-repeat="field in professionSchema">
+                <input data-ng-if="(field['type'] == 'number')" type="{{field['type']}}" class="span2" data-ng-model="profession[field['schemaKey']]" placeholder="{{field['title']}}" />
+                <input data-ng-if="(field['type'] == 'text' || field['type'] == 'password')" type="{{field['type']}}" class="span2" data-ng-model="profession[field['schemaKey']]" placeholder="{{field['title']}}" id="profession-add-title" />
+                <select data-ng-if="field['type'] == 'select'" data-ng-model="profession[field['schemaKey']]" ng-multiple="true" multiple ng-options="option for option in field['options']">
+                    <option value="">-- Choose Role --</option>
+                </select>
+            </span>
+            <input type="submit" class="btn span1" value="Add" />
+        </div>
+    </form>
+    <div class="loader" data-ng-init="init()" data-ng-hide="professions.length"></div>
+    <div class="actions-bar" data-ng-show="professions.length">
+        <input type="button" class="btn btn-danger" data-ng-hide="edit" data-ng-click="edit=!edit" value="Edit">
+        <input type="button" class="btn btn-primary" data-ng-show="edit" data-ng-click="edit=!edit" value="Done">
+    </div>
+    <table class="table table-striped table-bordered table-hover editable-table" data-ng-show="professions.length">
+        <tr>
+            <th data-ng-show="edit">
+                Edit
+            </th>
+            <th data-ng-repeat="field in professionSchema" data-ng-if="field.inTable">{{field.title}}</th>
+            <th></th>
+        </tr>
+        <tr data-ng-repeat="profession in professions">
+            <td data-ng-show="edit">
+                <button class="glyphicon glyphicon-trash" data-ng-click="remove(profession)" value="del">
+                    <i class="icon-trash icon-white"></i>
+                </button>
+            </td>
+            <td class="table-editable-cell" data-ng-repeat="field in professionSchema" data-ng-if="field.inTable">
+                <span data-ng-if="(field['type'] == 'number')" class="editable-span" data-ng-editable="update(profession)" data-ng-editable-model="profession[field['schemaKey']]"></span>
+                <span data-ng-if="(field['type'] == 'text')" class="editable-span" data-ng-editable="update(profession)" data-ng-editable-model="profession[field['schemaKey']]"></span>
+                <span data-ng-click="beforeSelect(field['schemaKey'], profession)" data-ng-if="(field['type'] == 'select')" class="editable-span" data-ng-editable-select="update(profession, field['schemaKey'])" data-ng-editable-select-model="profession[field['schemaKey']]" data-ng-editable-select-options="field['options']">
+                </span>
+            </td>
+            <td>
+                <button class="btn btn-primary" data-ng-click="showReagents(profession)">Reagents</button>
+            </td>
+        </tr>
+    </table>
+
+    <div data-ng-show="reagents">
+        <table class="table table-striped table-bordered table-hover editable-table">
+            <tr>
+                <th data-ng-repeat="field in reagentSchema" data-ng-if="field.inTable">{{field.title}}</th>
+                <th>Shopping List: {{reagents.length}}</th>
+            </tr>
+            <tr data-ng-repeat="reagent in reagents">
+                <td class="table-editable-cell" data-ng-repeat="field in reagentSchema" data-ng-if="field.inTable">
+                   <span data-ng-if="(field['type'] == 'number')" class="editable-span" data-ng-editable="update(selectedProfession)" data-ng-editable-model="reagent[field['schemaKey']]"></span>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><input type="number" data-ng-model="reagent_new.id" /></td>
+                <td><input type="number" data-ng-model="reagent_new.quantity" /></td>
+                <td><button data-ng-click="addReagent(reagent_new, selectedProfession)" class="btn btn-success">Add</button></td>
+            </tr>
+        </table>
+    </div>
+</section>

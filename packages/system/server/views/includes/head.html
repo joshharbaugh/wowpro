@@ -18,6 +18,7 @@
   <meta property="fb:admins" content="APP_ADMIN">
 
   <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 
   {% for file in aggregatedassets.header.css %}
     <link rel="stylesheet" href="{{file}}">
@@ -30,6 +31,9 @@
   {% for file in aggregatedassets.header.js %}
     <script type="text/javascript" src="{{file}}"></script>
   {% endfor %}
+
+    <script type="text/javascript" src="//static.wowhead.com/widgets/power.js"></script>
+    <script>var wowhead_tooltips = { "colorlinks": false, "iconizelinks": false, "renamelinks": true }</script>
 
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>

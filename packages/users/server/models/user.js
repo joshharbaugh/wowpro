@@ -73,6 +73,8 @@ var UserSchema = new Schema({
     type: String,
     default: 'local'
   },
+  token: String,
+  characters: [Schema.Types.Mixed],
   salt: String,
   resetPasswordToken: String,
   resetPasswordExpires: Date,

@@ -2,6 +2,9 @@
   <script type="text/javascript" src="{{file}}"></script>
 {% endfor %}
 
+  <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
 {% if (process.env.NODE_ENV == 'development') %}
   <!-- Livereload script rendered -->
   <!-- Disabling livereload due to - https://github.com/linnovate/mean/issues/929

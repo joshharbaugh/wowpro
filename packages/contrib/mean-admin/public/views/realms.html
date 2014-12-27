@@ -1,0 +1,47 @@
+<section data-ng-controller="RealmsController">
+  <div class="loader" data-ng-init="init()" data-ng-hide="realms.length"></div>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <label for="region">Region:</label>
+      <select class="form-control" name="region" id="region" data-ng-options="region.name for region in regions" data-ng-model="region" data-ng-change="selectRegion(region)">
+        <option value="">--- Select a region---</option>
+      </select>
+    </div>
+    <div class="col-sm-6">
+      <label for="locales">Locale:</label>
+      <select class="form-control" name="locales" id="locales" data-ng-options="locale for locale in locales" data-ng-model="locale" data-ng-change="selectLocale(locale)">
+        <option value="">--- Select a locale ---</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <table class="table table-striped table-bordered table-hover" data-ng-show="realms.length">
+        <tr>
+          <th>Name</th>
+          <th>Battlegroup</th>
+          <th>Connected Realms</th>
+          <th>Locale</th>
+          <th>Timezone</th>
+          <th>Updated</th>
+          <th></th>
+        </tr>
+        <tr data-ng-repeat="realm in realms track by $index" data-ng-class="{'bg-success text-muted': realm.done}">
+          <td>{{realm.name}}</td>
+          <td>{{realm.battlegroup}}</td>
+          <td>
+            <ul>
+              <li data-ng-repeat="connected_realm in realm.connected_realms" data-ng-bind="connected_realm"></li>
+            </ul>
+          </td>
+          <td>{{realm.locale}}</td>
+          <td>{{realm.timezone}}</td>
+          <td>{{realm.updated | date:'medium'}}</td>
+          <td><button class="btn btn-primary" data-ng-class="{'disabled': realm.done}" data-ng-click="update(realm)">Update</button></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</section>

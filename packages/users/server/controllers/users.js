@@ -9,7 +9,8 @@ var mongoose = require('mongoose'),
   config = require('meanio').loadConfig(),
   crypto = require('crypto'),
   nodemailer = require('nodemailer'),
-  templates = require('../template');
+  templates = require('../template'),
+  request = require('request');
 
 /**
  * Auth callback
@@ -105,7 +106,12 @@ exports.create = function(req, res, next) {
  * Send User
  */
 exports.me = function(req, res) {
-  res.json(req.user || null);
+  request('https://us.api.battle.net/wow/user/characters?locale=en_US&access_token=' + req.user.token, function (err, resp, body) {
+    if(err) res.send(500);
+    var parsed = JSON.parse(body);
+    req.user.characters = parsed.characters;
+    res.json(req.user || null);
+  }); 
 };
 
 /**

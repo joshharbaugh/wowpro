@@ -36,4 +36,14 @@ module.exports = function(Admin, app, auth, database) {
     var settings = require('../controllers/settings');
     app.get('/admin/settings', auth.requiresAdmin, settings.get);
     app.put('/admin/settings', auth.requiresAdmin, settings.save);
+
+    app.get('/admin/professions', auth.requiresAdmin, function (req, res, next) {
+        console.log('Admin: Professions');
+        next();
+    });
+
+    app.get('/admin/realms', auth.requiresAdmin, function (req, res, next) {
+        console.log('Admin: Realms');
+        next();
+    });
 };

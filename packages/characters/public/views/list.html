@@ -1,0 +1,40 @@
+<section data-ng-controller="CharactersController" data-ng-init="find()">
+  <table class="table table-hover table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Realm</th>
+        <th>Battlegroup</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-ng-repeat="character in characters">
+        <td>
+          <a data-ng-href="#!/characters/{{character.name | lowercase}}/{{character.realm | lowercase}}">{{character.name}}</a>
+        </td>
+        <td>{{character.realm}}</td>
+        <td>{{character.battlegroup}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ul class="characters unstyled">
+    <li data-ng-repeat="character in characters">
+      <span>{{character.realm}}</span> /
+      <span>{{global.user.name}}</span>
+      <h2>
+        <a data-ng-href="#!/characters/{{character._id}}">{{character.name}}</a>
+        <span data-ng-if="hasAuthorization(character)">
+          <a class="btn" href="/#!/characters/{{character._id}}/edit">
+            <i class="glyphicon glyphicon-edit"></i>
+          </a>
+          <a class="btn" data-ng-click="remove(character);">
+            <i class="glyphicon glyphicon-trash"></i>
+          </a>
+        </span>
+      </h2>
+      <div>{{character}}</div>
+    </li>
+  </ul>
+  <h1 data-ng-hide="!characters || characters.length">No characters yet. <br> Why don't you <a href="/#!/characters/create">Create One</a>?</h1>
+</section>

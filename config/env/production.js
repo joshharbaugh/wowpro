@@ -1,7 +1,6 @@
 'use strict';
 
 module.exports = {
-  aggregate: true,
   db: process.env.MONGOHQ_URL || 'mongodb://localhost/mean-prod',
   /**
    * Database options that will be passed directly to mongoose.connect
@@ -33,7 +32,7 @@ module.exports = {
   battlenet: {
     clientID: process.env.BNET_ID,
     clientSecret: process.env.BNET_SECRET,
-    callbackURL: 'https://warcraftprofessional.net/auth/bnet/callback'
+    callbackURL: 'https://localhost:9000/auth/bnet/callback'
   },
   facebook: {
     clientID: 'APP_ID',

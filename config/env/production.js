@@ -34,12 +34,12 @@ module.exports = {
     clientSecret: process.env.BNET_SECRET,
     callbackURL: 'http://warcraftprofessional.net/auth/bnet/callback'
   },
-  emailFrom: 'SENDER EMAIL ADDRESS', // sender address like ABC <abc@example.com>
+  emailFrom: 'noreply@warcraftprofessional.net', // sender address like ABC <abc@example.com>
   mailer: {
-    service: 'SERVICE_PROVIDER',
+    service: process.env.EMAIL_SERVICE,
     auth: {
-      user: 'EMAIL_ID',
-      pass: 'PASSWORD'
+      user: process.env.EMAIL_ID,
+      pass: process.env.EMAIL_PASSWORD
     }
   }
 };

@@ -371,67 +371,14 @@ background: url("/theme/assets/img/bg.png");
     color: #959595;
 }
 
-.login-form__right .social_icon_in .button:before {
+.login-form__right .social_icon_bn .button:before {
     content: '';
     position: absolute;
-    background: url("/theme/assets/img/social_in.png") no-repeat 50% 50%;
+    background: url("/theme/assets/img/social_bnet.png") no-repeat 50% 50%;
     width: 50px;
     height: 47px;
     top: 10px;
     left: 0;
-}
-
-.login-form__right .social_icon_fb .button:before {
-    content: '';
-    position: absolute;
-    background: url("/theme/assets/img/social_fb.png") no-repeat 50% 50%;
-    width: 41px;
-    height: 40px;
-    top: 10px;
-    left: 8px;
-}
-
-.login-form__right .social_icon_gh .button:before {
-    content: '';
-    position: absolute;
-    background: url("/theme/assets/img/social_github.png") no-repeat 50% 50%;
-    width: 40px;
-    height: 40px;
-    top: 10px;
-    left: 8px;
-}
-
-.login-form__right .social_icon_tw .button:before {
-    content: '';
-    position: absolute;
-    background: url("/theme/assets/img/social_tw.png") no-repeat 50% 50%;
-    width: 40px;
-    height: 41px;
-    top: 10px;
-    left: 8px;
-}
-
-.login-form__right .social_icon_google .button:before {
-    content: '';
-    position: absolute;
-    background: url("/theme/assets/img/social_g+.png") no-repeat 50% 50%;
-    width: 40px;
-    height: 41px;
-    top: 10px;
-    left: 8px;
-}
-
-.woman_ninja_bottom {
-    position: absolute;
-    left: 21%;
-    pointer-events: none;
-}
-
-.woman_ninja_left {
-    position: absolute;
-    top: 75px;
-    left: -410px;
-    pointer-events: none;
 }
 
 .registration_form {

@@ -8,8 +8,7 @@ angular.module('mean.users')
     function($scope, $rootScope, $http, $location, Global) {
       // This object will contain list of available social buttons to authorize
       $scope.socialButtons = {
-        'bnet': {},
-        'linkedin': {}
+        'bnet': {}
       };
       $scope.socialButtonsCounter = 0;
       $scope.global = Global;

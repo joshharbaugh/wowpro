@@ -9,32 +9,7 @@ module.exports = {
     debug: false
   },
   app: {
-    name: 'MEAN - FullStack JS - Development'
-  },
-  facebook: {
-    clientID: 'DEFAULT_APP_ID',
-    clientSecret: 'APP_SECRET',
-    callbackURL: 'http://localhost:3000/auth/facebook/callback'
-  },
-  twitter: {
-    clientID: 'DEFAULT_CONSUMER_KEY',
-    clientSecret: 'CONSUMER_SECRET',
-    callbackURL: 'http://localhost:3000/auth/twitter/callback'
-  },
-  github: {
-    clientID: 'DEFAULT_APP_ID',
-    clientSecret: 'APP_SECRET',
-    callbackURL: 'http://localhost:3000/auth/github/callback'
-  },
-  google: {
-    clientID: 'DEFAULT_APP_ID',
-    clientSecret: 'APP_SECRET',
-    callbackURL: 'http://localhost:3000/auth/google/callback'
-  },
-  linkedin: {
-    clientID: process.env.LINKEDIN_ID,
-    clientSecret: process.env.LINKEDIN_SECRET,
-    callbackURL: 'https://localhost:9000/auth/linkedin/callback'
+    name: 'Warcraft Professional | Calculates the cost of leveling professions'
   },
   battlenet: {
     clientID: process.env.BNET_ID,

@@ -32,7 +32,7 @@ module.exports = {
   battlenet: {
     clientID: process.env.BNET_ID,
     clientSecret: process.env.BNET_SECRET,
-    callbackURL: 'http://warcraftprofessional.net/auth/bnet/callback'
+    callbackURL: 'https://warcraftprofessional.net/auth/bnet/callback'
   },
   emailFrom: 'noreply@warcraftprofessional.net', // sender address like ABC <abc@example.com>
   mailer: {

@@ -77,12 +77,7 @@ var UserSchema = new Schema({
   characters: [Schema.Types.Mixed],
   salt: String,
   resetPasswordToken: String,
-  resetPasswordExpires: Date,
-  facebook: {},
-  twitter: {},
-  github: {},
-  google: {},
-  linkedin: {}
+  resetPasswordExpires: Date
 });
 
 /**

@@ -57,13 +57,14 @@ module.exports = function(passport) {
     callbackURL: config.battlenet.callbackURL,
     scope: 'wow.profile'
   }, function(accessToken, refreshToken, profile, done) {
-    console.log('token', accessToken);
-    console.log('refresh token', refreshToken);
+    //console.log('token', accessToken);
+    //console.log('refresh token', refreshToken);
 
     User.findOne({
-      'battlenet.id': profile.id
+      'name': profile.battletag
     }, function(err, user) {
       if (user) {
+        user.token = accessToken;
         return done(err, user);
       }
       user = new User({

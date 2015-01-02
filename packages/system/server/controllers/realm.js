@@ -288,11 +288,12 @@ exports.professionCost = function(req, res, next) {
       }
     }
 
-    Realm.findOne({'realm.slug': realm, 'locale': locale}, 'averages', function (err, realmAverages) {
+    Realm.findOne({'realm.slug': realm, 'locale': locale}, 'averages updated', function (err, realmAverages) {
       if(err) return res.sendStatus(500);
       if(!realmAverages) return res.sendStatus(500);
 
-      var averages = [];
+      var averages = [],
+          updated = realmAverages.updated;
 
       for(var i=0; i<realmAverages.averages.length; i += 1) {
         if(reagentsList.indexOf(realmAverages.averages[i].item) !== -1) {
@@ -309,9 +310,9 @@ exports.professionCost = function(req, res, next) {
 
       try {
         var silverCopper = formatSilverCopper(totalCost % 10000).split('|');
-        res.json({realm: realm, profession: profession, averages: averages, total: totalCost, totalFormatted: Math.round(totalCost / 10000) + 'g ' + silverCopper[0] + 's ' + silverCopper[1] + 'c'});
+        res.json({realm: realm, updated: new Date(updated).getTime(), profession: profession, averages: averages, total: totalCost, totalFormatted: Math.round(totalCost / 10000) + 'g ' + silverCopper[0] + 's ' + silverCopper[1] + 'c'});
       } catch(e) {
-        res.json({realm: realm, profession: profession, averages: averages, total: totalCost});
+        res.json({realm: realm, updated: new Date(updated).getTime(), profession: profession, averages: averages, total: totalCost});
       }
     });
   });

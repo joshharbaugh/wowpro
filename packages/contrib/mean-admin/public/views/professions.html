@@ -21,10 +21,10 @@
             <th data-ng-show="edit">
                 Edit
             </th>
-            <th data-ng-repeat="field in professionSchema" data-ng-if="field.inTable">{{field.title}}</th>
+            <th data-ng-repeat="field in professionSchema" data-ng-if="field.inTable"><a href="" data-ng-click="sort(field.title);">{{field.title}}</a></th>
             <th></th>
         </tr>
-        <tr data-ng-repeat="profession in professions">
+        <tr data-ng-repeat="profession in professions | orderBy:predicate:reverse">
             <td data-ng-show="edit">
                 <button class="glyphicon glyphicon-trash" data-ng-click="remove(profession)" value="del">
                     <i class="icon-trash icon-white"></i>

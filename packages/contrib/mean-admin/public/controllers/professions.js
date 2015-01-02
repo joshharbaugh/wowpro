@@ -31,11 +31,17 @@ angular.module('mean.mean-admin').controller('ProfessionsController', ['$scope',
             inTable: true
         }];
         $scope.profession = {};
+        $scope.predicate = 'name';
 
         $scope.init = function() {
             Professions.query({}, function(professions) {
                 $scope.professions = professions;
             });
+        };
+
+        $scope.sort = function(field) {
+            $scope.predicate = field.toLowerCase();
+            $scope.reverse = !$scope.reverse;
         };
 
         $scope.add = function() {

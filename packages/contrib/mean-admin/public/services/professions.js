@@ -2,11 +2,11 @@
 angular.module('mean.mean-admin').factory("Professions", ['$resource',
     function($resource) {
         return $resource('/profession/:professionName', {
-            professionName: '@professionName'
+          professionName: '@professionName'
         }, {
-            update: {
-                method: 'PUT'
-            }
+          update: {
+              method: 'PUT'
+          }
         });
     }
 ]);

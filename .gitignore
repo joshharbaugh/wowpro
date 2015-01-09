@@ -68,3 +68,4 @@ modules/views/
 *.key
 *.csr
 *.env
+*.log

@@ -20,6 +20,9 @@ angular.module('mean.mean-admin').config(['$stateProvider', '$urlRouterProvider'
             }).state('realms', {
                 url: '/admin/realms',
                 templateUrl: 'mean-admin/views/realms.html'
+            }).state('logs', {
+                url: '/admin/logs',
+                templateUrl: 'mean-admin/views/logs.html'
             });
     }
 ]).config(['ngClipProvider',

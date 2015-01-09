@@ -5,7 +5,20 @@ var request = require('request'),
     zlib = require('zlib'),
     mongoose = require('mongoose'),
     Realm = mongoose.model('Realm'),
-    Profession = mongoose.model('Profession');
+    Profession = mongoose.model('Profession'),
+    winston = require('winston');
+
+winston.loggers.add('realm', {
+  console: {
+    level: 'verbose',
+    colorize: 'true',
+    label: 'system-realm'
+  },
+  file: {
+    filename: './system-realm.log'
+  }
+});
+var logger = winston.loggers.get('realm');
 
 exports.listByLocale = function(req, res, next) {
   var host = req.body.host || 'https://us.api.battle.net/',
@@ -80,7 +93,7 @@ exports.downloadAuctionData = function(req, res, next) {
   });
 
   $req.on('end', function() {
-    console.log('Done');
+    logger.info('Request to Blizzard API complete', {timestamp: Date.now(), pid: process.pid});
 
     fs.readFile('tmp/' + realm + '_' + locale + '_file.json', {encoding: 'utf8'}, function (err, data) {
       if(err) return res.status(500).send(err);
@@ -89,8 +102,7 @@ exports.downloadAuctionData = function(req, res, next) {
           auctionDataFile = $data.files[0].url,
           lastModified = $data.files[0].lastModified;
       
-      console.log('Blizzard last modified:', new Date(lastModified));
-      console.log('----------------------\n');
+      logger.info('Blizzard last modified: ' + new Date(lastModified), {timestamp: Date.now(), pid: process.pid});
 
       var dumpOutStream = fs.createWriteStream('data/' + realm + '_' + locale + '_auctions.json');
       var dumpOptions = {
@@ -101,7 +113,7 @@ exports.downloadAuctionData = function(req, res, next) {
       var dumpReq = request(dumpOptions);
 
       dumpReq.on('response', function (resp) {
-        console.log('Status Code', resp.statusCode);
+        logger.info('Status Code: ' + resp.statusCode, {timestamp: Date.now(), pid: process.pid});
         if (resp.statusCode !== 200) return res.status(resp.statusCode);
      
         var encoding = resp.headers['content-encoding'];
@@ -117,7 +129,7 @@ exports.downloadAuctionData = function(req, res, next) {
       dumpReq.on('end', function() {
         fs.unlink('tmp/' + realm + '_' + locale + '_file.json', function (err) {
           if (err) return res.status(500).send(err);
-          console.log('Successfully cleaned up ' + realm + ' temp files.');
+          logger.info('Successfully cleaned up ' + realm + ' temp files.', {timestamp: Date.now(), pid: process.pid});
 
           Realm.findOneAndUpdate({'realm.slug': realm, 'locale': locale}, {lastModified: lastModified}, {upsert: false}, function (err, doc) {
             if(err) return res.status(500).send(err);
@@ -128,12 +140,14 @@ exports.downloadAuctionData = function(req, res, next) {
       });
 
       dumpReq.on('error', function(err) {
+        logger.error('Dump request error: ' + err, {timestamp: Date.now(), pid: process.pid});
         return res.status(500).send(err);
       });
     });   
   });
  
   $req.on('error', function(err) {
+    logger.error('Request error: ' + err, {timestamp: Date.now(), pid: process.pid});
     return res.status(500).send(err);
   });
 
@@ -157,7 +171,7 @@ exports.getProfessionsAuctionData = function(req, res, next) {
 
       //loop over professions
       for(var i=0; i<professions.length; i += 1) {
-        console.log('Number of reagents for ' + professions[i].name + ': ' + professions[i].reagents.length);
+        logger.info('Number of reagents for ' + professions[i].name + ': ' + professions[i].reagents.length, {timestamp: Date.now(), pid: process.pid});
 
         //loop over reagents in each profession
         for(var n=0; n<professions[i].reagents.length; n += 1) {
@@ -174,7 +188,7 @@ exports.getProfessionsAuctionData = function(req, res, next) {
       //console.log('Full list of reagents:');
       //console.log(reagents);
 
-      console.log('\nTotal number of auctions: ' + $data.auctions.auctions.length);
+      logger.info('\nTotal number of auctions: ' + $data.auctions.auctions.length, {timestamp: Date.now(), pid: process.pid});
 
       function isProfessionReagent(element) {
         return reagents.indexOf(element.item) !== -1;
@@ -182,7 +196,7 @@ exports.getProfessionsAuctionData = function(req, res, next) {
 
       var filteredAuctions = $data.auctions.auctions.filter(isProfessionReagent);
 
-      console.log('\nTotal number of profession reagent auctions: ' + filteredAuctions.length);
+      logger.info('\nTotal number of profession reagent auctions: ' + filteredAuctions.length, {timestamp: Date.now(), pid: process.pid});
 
       var payload = {
         canonical_realm: $data.realm,
@@ -193,22 +207,9 @@ exports.getProfessionsAuctionData = function(req, res, next) {
       Realm.findOneAndUpdate({'realm.slug': realm, 'locale': locale}, payload, {upsert: true}, function (err, doc) {
         if(err) return res.status(500).send(err);
 
-        /*res.json({
-          'realm': $data.realm,
-          'reagents': {
-            'total': reagents.length,
-            'list': reagents
-          },
-          'number_of_auctions': {
-            'total': $data.auctions.auctions.length,
-            'reagents': filteredAuctions.length
-          },
-          'updated': payload.updated
-        });*/
-
         fs.unlink('data/' + realm + '_' + locale + '_auctions.json', function (err) {
           if (err) return res.status(500).send(err);
-          console.log('Successfully cleaned up ' + realm + ' data files.');
+          logger.info('Successfully cleaned up ' + realm + ' data files.', {timestamp: Date.now(), pid: process.pid});
 
           res.redirect('/realm/' + realm + '/' + locale + '/professions');
         });

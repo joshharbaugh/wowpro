@@ -1,0 +1,20 @@
+<section data-ng-controller="LogsController" data-ng-init="init()">
+
+  <table class="table table-hovered table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Time</th>
+        <th>Message</th>
+        <th>PID</th>
+      </tr>
+    </thead>
+    <tr data-ng-repeat="log in logs" data-ng-class="{'bg-info': log.level=='info', 'bg-danger': log.level=='error'}">
+      <td>{{log.level}}</td>
+      <td>{{log.timestamp | date:'medium'}}</td>
+      <td><strong>{{log.message}}</strong></td>
+      <td>{{log.pid}}</td>
+    </tr>
+  </table>
+
+</section>

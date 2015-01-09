@@ -46,4 +46,8 @@ module.exports = function(Admin, app, auth, database) {
         console.log('Admin: Realms');
         next();
     });
+
+    //Setting up the log api
+    var logs = require('../controllers/logs');
+    app.get('/admin/logs', auth.requiresAdmin, logs.get);
 };

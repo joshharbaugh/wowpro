@@ -59,7 +59,7 @@
     "ms": "^0.6.2",
     "nodemailer": "1.2.2",
     "passport": "^0.2.0",
-    "passport-bnet": "^1.0.2",
+    "passport-bnet": "1.1.1",
     "passport-local": "^1.0.0",
     "request": "^2.51.0",
     "serve-favicon": "^2.0.0",

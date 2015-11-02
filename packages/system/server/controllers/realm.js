@@ -188,13 +188,13 @@ exports.getProfessionsAuctionData = function(req, res, next) {
       //console.log('Full list of reagents:');
       //console.log(reagents);
 
-      logger.info('\nTotal number of auctions: ' + $data.auctions.auctions.length, {timestamp: Date.now(), pid: process.pid});
+      logger.info('\nTotal number of auctions: ' + $data.auctions.length, {timestamp: Date.now(), pid: process.pid});
 
       function isProfessionReagent(element) {
         return reagents.indexOf(element.item) !== -1;
       }
 
-      var filteredAuctions = $data.auctions.auctions.filter(isProfessionReagent);
+      var filteredAuctions = $data.auctions.filter(isProfessionReagent);
 
       logger.info('\nTotal number of profession reagent auctions: ' + filteredAuctions.length, {timestamp: Date.now(), pid: process.pid});
 
@@ -309,12 +309,19 @@ exports.professionCost = function(req, res, next) {
         totalCost += averages[t].totalCost;
       }
 
-      try {
-        var silverCopper = formatSilverCopper(totalCost % 10000).split('|');
-        res.json({realm: realm, updated: new Date(updated).getTime(), profession: profession, averages: averages, total: totalCost, totalFormatted: Math.round(totalCost / 10000) + 'g ' + silverCopper[0] + 's ' + silverCopper[1] + 'c'});
-      } catch(e) {
-        res.json({realm: realm, updated: new Date(updated).getTime(), profession: profession, averages: averages, total: totalCost});
-      }
+      Realm.findOne({'realm.slug': realm, 'locale': locale}, '-averages -auctions', function (err, realm) {
+        if(err) return res.status(500).send(err);
+        realm.cost[profession.name] = totalCost
+        realm.save(function(err) {
+          if(err) console.log('ERR', err)
+          try {
+            var silverCopper = formatSilverCopper(totalCost % 10000).split('|');
+            res.json({realm: realm, updated: new Date(updated).getTime(), profession: profession, averages: averages, total: totalCost, totalFormatted: Math.round(totalCost / 10000) + 'g ' + silverCopper[0] + 's ' + silverCopper[1] + 'c'});
+          } catch(e) {
+            res.json({realm: realm, updated: new Date(updated).getTime(), profession: profession, averages: averages, total: totalCost});
+          }
+        })
+      })
     });
   });
 };
